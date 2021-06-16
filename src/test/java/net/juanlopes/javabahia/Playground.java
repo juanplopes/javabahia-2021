@@ -8,6 +8,10 @@ import java.util.Random;
 public class Playground {
     public static void main(String[] args) {
         test(new V1_Naive<>());
+        test(new V2_QuickSelect<>());
+        test(new V3_RTree<>());
+        test(new V4_KDTree<>());
+        test(new V5_CustomKDTree<>());
     }
 
     private static void test(KNearest<Object> structure) {

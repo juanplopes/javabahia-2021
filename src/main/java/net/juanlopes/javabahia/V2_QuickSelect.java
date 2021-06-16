@@ -21,7 +21,7 @@ public class V2_QuickSelect<T> implements KNearest<T> {
 
         return list.subList(0, index)
                 .stream()
-                .map(p -> p.getData())
+                .map(Point::getData)
                 .collect(Collectors.toList());
     }
 
