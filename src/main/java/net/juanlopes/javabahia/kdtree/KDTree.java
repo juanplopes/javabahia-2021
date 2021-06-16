@@ -39,17 +39,17 @@ public class KDTree {
     public void update() {
         if (size == updatedSize)
             return;
-        updateRecursive(0, 0, size);
+        updateRecursively(0, 0, size);
         this.updatedSize = size;
     }
 
-    private void updateRecursive(int accessor, int begin, int end) {
+    private void updateRecursively(int accessor, int begin, int end) {
         if (end - begin <= 1)
             return;
-        int mid = begin + ((end - begin) >> 1);
+        int mid = begin + ((end - begin) >> 1); // (begin+end)/2
         QuickSelect.select(accessors[accessor], begin, end, mid);
-        updateRecursive(1 - accessor, begin, mid);
-        updateRecursive(1 - accessor, mid + 1, end);
+        updateRecursively(1 - accessor, begin, mid);
+        updateRecursively(1 - accessor, mid + 1, end);
     }
 
     public Query newQuery() {
@@ -67,11 +67,11 @@ public class KDTree {
             this.heap.clear(Math.min(kNearest, size), maxDistance * maxDistance);
 
             KDTree.this.update();
-            executeRecursive(x, y, minX, maxX, minY, maxY, true, 0, size);
+            executeRecursively(x, y, minX, maxX, minY, maxY, true, 0, size);
         }
 
-        private void executeRecursive(double x, double y, double minX, double maxX, double minY, double maxY,
-                                      boolean partitionByX, int begin, int end) {
+        private void executeRecursively(double x, double y, double minX, double maxX, double minY, double maxY,
+                                        boolean partitionByX, int begin, int end) {
             if (begin >= end || minDistToRect(x, y, minX, maxX, minY, maxY) > heap.maxDistance()) {
                 return;
             }
@@ -81,23 +81,23 @@ public class KDTree {
             double midY = points[(mid << 1) + 1];
             if (partitionByX) {
                 if (x < midX) {
-                    executeRecursive(x, y, minX, midX, minY, maxY, false, begin, mid);
+                    executeRecursively(x, y, minX, midX, minY, maxY, false, begin, mid);
                     heap.add(dist(x, y, midX, midY), mid);
-                    executeRecursive(x, y, midX, maxX, minY, maxY, false, mid + 1, end);
+                    executeRecursively(x, y, midX, maxX, minY, maxY, false, mid + 1, end);
                 } else {
-                    executeRecursive(x, y, midX, maxX, minY, maxY, false, mid + 1, end);
+                    executeRecursively(x, y, midX, maxX, minY, maxY, false, mid + 1, end);
                     heap.add(dist(x, y, midX, midY), mid);
-                    executeRecursive(x, y, minX, midX, minY, maxY, false, begin, mid);
+                    executeRecursively(x, y, minX, midX, minY, maxY, false, begin, mid);
                 }
             } else {
                 if (y < midY) {
-                    executeRecursive(x, y, minX, maxX, minY, midY, true, begin, mid);
+                    executeRecursively(x, y, minX, maxX, minY, midY, true, begin, mid);
                     heap.add(dist(x, y, midX, midY), mid);
-                    executeRecursive(x, y, minX, maxX, midY, maxY, true, mid + 1, end);
+                    executeRecursively(x, y, minX, maxX, midY, maxY, true, mid + 1, end);
                 } else {
-                    executeRecursive(x, y, minX, maxX, midY, maxY, true, mid + 1, end);
+                    executeRecursively(x, y, minX, maxX, midY, maxY, true, mid + 1, end);
                     heap.add(dist(x, y, midX, midY), mid);
-                    executeRecursive(x, y, minX, maxX, minY, midY, true, begin, mid);
+                    executeRecursively(x, y, minX, maxX, minY, midY, true, begin, mid);
                 }
             }
         }

@@ -26,18 +26,18 @@ public class V2_QuickSelect<T> implements KNearest<T> {
     }
 
 
-    public static <T> int quickSelect(List<T> list, int mid, Comparator<T> comparator) {
+    public static <T> int quickSelect(List<T> list, int index, Comparator<T> comparator) {
         int begin = 0;
         int end = list.size();
         while (end - begin > 1) {
             int pivot = partition(list, begin, end, comparator);
-            if (mid <= pivot) {
+            if (index <= pivot) {
                 end = pivot;
             } else {
                 begin = pivot + 1;
             }
         }
-        return Math.min(mid, end);
+        return Math.min(index, end);
     }
 
     public static <T> int partition(List<T> list, int begin, int end, Comparator<T> comparator) {
