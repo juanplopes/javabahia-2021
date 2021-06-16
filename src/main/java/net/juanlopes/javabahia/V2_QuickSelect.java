@@ -16,7 +16,7 @@ public class V2_QuickSelect<T> implements KNearest<T> {
 
     @Override
     public List<T> query(double x, double y, int limit) {
-        int index = quickSelect(list, limit, Comparator.comparing(p ->
+        int index = quickSelect(list, limit, Comparator.comparingDouble(p ->
                 Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)));
 
         return list.subList(0, index)

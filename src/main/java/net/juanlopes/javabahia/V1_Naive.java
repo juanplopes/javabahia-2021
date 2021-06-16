@@ -16,7 +16,7 @@ public class V1_Naive<T> implements KNearest<T> {
     @Override
     public List<T> query(double x, double y, int limit) {
         return list.stream()
-                .sorted(Comparator.comparing(p ->
+                .sorted(Comparator.comparingDouble(p ->
                         Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)))
                 .limit(limit)
                 .map(p -> p.data)

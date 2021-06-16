@@ -16,13 +16,16 @@ public class Playground {
 
     private static void test(KNearest<Object> structure) {
         var random = new Random(123456);
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 5000; i++) {
             structure.add(random.nextDouble(), random.nextDouble(), random);
+        }
+        for (int i = 0; i < 1000; i++) {
+            structure.query(random.nextDouble(), random.nextDouble(), 100);
         }
 
         System.out.print(structure.getClass().getSimpleName());
         time(() -> {
-            for (int i = 0; i < 10000; i++) {
+            for (int i = 0; i < 5000; i++) {
                 structure.query(random.nextDouble(), random.nextDouble(), 100);
             }
         });

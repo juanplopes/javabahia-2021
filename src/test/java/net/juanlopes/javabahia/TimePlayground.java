@@ -14,6 +14,9 @@ public class TimePlayground {
 //                V4_KDTree::new,
 //                V5_CustomKDTree::new);
 
+        test(20000, 10,
+                V2_QuickSelect::new);
+
         test(100000, 10,
                 V4_KDTree::new,
                 V5_CustomKDTree::new);
