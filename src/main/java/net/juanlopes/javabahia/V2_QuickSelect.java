@@ -17,11 +17,11 @@ public class V2_QuickSelect<T> implements KNearest<T> {
     @Override
     public List<T> query(double x, double y, int limit) {
         int index = quickSelect(list, limit, Comparator.comparingDouble(p ->
-                Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)));
+                Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)));
 
         return list.subList(0, index)
                 .stream()
-                .map(p -> p.data)
+                .map(p -> p.getData())
                 .collect(Collectors.toList());
     }
 
@@ -51,17 +51,5 @@ public class V2_QuickSelect<T> implements KNearest<T> {
         }
         Collections.swap(list, i, end - 1);
         return i;
-    }
-
-    private static class Point<T> {
-        private final double x;
-        private final double y;
-        private final T data;
-
-        public Point(double x, double y, T data) {
-            this.x = x;
-            this.y = y;
-            this.data = data;
-        }
     }
 }

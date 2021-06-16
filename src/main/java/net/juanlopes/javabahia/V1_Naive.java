@@ -17,21 +17,10 @@ public class V1_Naive<T> implements KNearest<T> {
     public List<T> query(double x, double y, int limit) {
         return list.stream()
                 .sorted(Comparator.comparingDouble(p ->
-                        Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2)))
+                        Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)))
                 .limit(limit)
-                .map(p -> p.data)
+                .map(Point::getData)
                 .collect(Collectors.toList());
     }
 
-    private static class Point<T> {
-        private final double x;
-        private final double y;
-        private final T data;
-
-        public Point(double x, double y, T data) {
-            this.x = x;
-            this.y = y;
-            this.data = data;
-        }
-    }
 }
