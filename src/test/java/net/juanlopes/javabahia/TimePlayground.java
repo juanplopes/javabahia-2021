@@ -13,13 +13,13 @@ public class TimePlayground {
 //                V3_RTree::new,
 //                V4_KDTree::new,
 //                V5_CustomKDTree::new);
+//
+//        test(20000, 10,
+//                V2_QuickSelect::new);
 
-        test(20000, 10,
-                V2_QuickSelect::new);
-
-        test(100000, 10,
-                V4_KDTree::new,
-                V5_CustomKDTree::new);
+        test(100000, 30,
+                V5_CustomKDTree::new,
+                V6_CustomKDTree2::new);
     }
 
     private static void test(int limit, int repeats, Supplier<KNearest<Object>>... suppliers) {

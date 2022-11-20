@@ -7,6 +7,7 @@ public class KDTree {
             new PointAccessor(0), new PointAccessor(1)
     };
 
+    private final int optimizeThreshold;
     private double[] points = new double[32];
     private int[] data = new int[16];
     private int updatedSize = 0;
@@ -14,6 +15,13 @@ public class KDTree {
     private double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY;
     private double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY;
 
+    public KDTree() {
+        this(0);
+    }
+
+    public KDTree(int optimizeThreshold) {
+        this.optimizeThreshold = optimizeThreshold;
+    }
 
     public void clear() {
         this.size = this.updatedSize = 0;
@@ -73,6 +81,16 @@ public class KDTree {
         private void executeRecursively(double x, double y, double minX, double maxX, double minY, double maxY,
                                         boolean partitionByX, int begin, int end) {
             if (begin >= end || minDistToRect(x, y, minX, maxX, minY, maxY) > heap.maxDistance()) {
+                return;
+            }
+
+            if (end - begin <= optimizeThreshold) {
+                // for subtrees with few nodes, it is faster to just iterate through them
+                for (int i = begin; i < end; i++) {
+                    double midX = points[i << 1];
+                    double midY = points[(i << 1) + 1];
+                    heap.add(dist(x, y, midX, midY), i);
+                }
                 return;
             }
 
